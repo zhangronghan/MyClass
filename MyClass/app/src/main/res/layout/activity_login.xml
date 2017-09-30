@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/ic_login_image"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/back_pressed"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textColor="@color/colorWhite"
+            android:text="注册"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_margin="5dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:text="选择你的身份："/>
+
+            <Switch
+                android:id="@+id/my_Switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:track="@drawable/switch_track"
+                android:thumb="@drawable/switch_thumb"
+                android:showText="true"
+                android:switchTextAppearance="@style/mySwitchTextAppearance"
+                android:textOn="管理者"
+                android:textOff="学生"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+    <EditText
+            android:id="@+id/edt_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:theme="@style/MyEditText"
+            android:textColor="@color/colorWhite"
+            android:hint="输入用户名"/>
+
+    <EditText
+        android:id="@+id/edt_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:theme="@style/MyEditText"
+        android:textColor="@color/colorWhite"
+        android:inputType="number"
+        android:hint="输入手机号码"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edt_code"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textSize="18sp"
+            android:theme="@style/MyEditText"
+            android:textColor="@color/colorWhite"
+            android:hint="输入验证码"/>
+
+        <Button
+            android:id="@+id/btn_code"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:background="@drawable/shape"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/colorWhite"
+            android:text="获取验证码"/>
+
+    </LinearLayout>
+
+
+    <EditText
+        android:id="@+id/edt_pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginTop="5dp"
+        android:theme="@style/MyEditText"
+        android:textColor="@color/colorWhite"
+        android:inputType="textPassword"
+        android:hint="密码"/>
+
+    <EditText
+        android:id="@+id/edt_confirmPass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginTop="5dp"
+        android:theme="@style/MyEditText"
+        android:textColor="@color/colorWhite"
+        android:inputType="textPassword"
+        android:hint="确认密码"/>
+
+        <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:textSize="18sp"
+        android:layout_margin="20dp"
+        android:background="@drawable/shape_login"
+        android:text="注册"/>
+
+    </LinearLayout>
+
+</LinearLayout>
