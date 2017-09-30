@@ -8,6 +8,7 @@
     android:orientation="vertical"
     tools:context="com.example.administrator.myclass.activity.MainActivity">
 
+    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
