@@ -44,6 +44,7 @@
         android:textSize="18sp"
         android:inputType="number"
         android:theme="@style/MyEditText"
+        android:drawablePadding="5dp"
         android:hint="输入用户名"/>
 
     <RelativeLayout
@@ -59,6 +60,7 @@
             android:layout_marginTop="5dp"
             android:textSize="18sp"
             android:inputType="textPassword"
+            android:drawablePadding="5dp"
             android:hint="输入密码"/>
 
         <Button

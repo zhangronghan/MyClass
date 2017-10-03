@@ -32,8 +32,6 @@ public class RegisterActivity extends BaseActivity {
     private TextView tvCode;
     private TextView tvLog;
 
-    //要判断登录状态     这个还没做
-
     //判断是否使用密码输入
     private boolean isPasswordRegister =true;
 
@@ -182,6 +180,7 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        //判断是否处于登录状态
         BmobUser bmobUser=BmobUser.getCurrentUser();
         if(bmobUser !=null){
             startActivity(new Intent(RegisterActivity.this,MainActivity.class));
@@ -191,7 +190,6 @@ public class RegisterActivity extends BaseActivity {
         }
 
         //设置背景透明度
-        //mLinearLayout.getBackground().setAlpha(235);
         mBtnReg.getBackground().setAlpha(210);
         mEdtPhone.setHintTextColor(Color.WHITE);
         mEdtPass.setHintTextColor(Color.WHITE);

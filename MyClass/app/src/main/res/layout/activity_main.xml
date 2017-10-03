@@ -8,15 +8,78 @@
     android:orientation="vertical"
     tools:context="com.example.administrator.myclass.activity.MainActivity">
 
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#1d92f9">
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/shape_header"
+            app:titleTextColor="@color/colorWhite"
+            app:popupTheme="@style/OverflowMenuStyle"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="首页"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    />
+        </android.support.v7.widget.Toolbar>
 
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
-    </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#707070"/>
 
+        <RadioGroup
+            android:id="@+id/rg_radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="3dp">
+
+                <RadioButton
+                    android:id="@+id/rb_main"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/main_pager_pressed"
+                    android:layout_height="match_parent"
+                    android:checked="true"
+                    android:button="@null"
+                    android:paddingTop="3dp"
+                    android:text="首页"
+
+                    android:gravity="center"/>
+
+                <RadioButton
+                    android:id="@+id/rb_friend"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/main_friend_pressed"
+                    android:layout_height="match_parent"
+                    android:button="@null"
+                    android:paddingTop="3dp"
+                    android:text="朋友"
+                    android:gravity="center"/>
+
+                <RadioButton
+                    android:id="@+id/rb_me"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/main_me_pressed"
+                    android:layout_height="match_parent"
+                    android:button="@null"
+                    android:paddingTop="3dp"
+                    android:text="我的"
+                    android:gravity="center"/>
+
+        </RadioGroup>
 
 </LinearLayout>
