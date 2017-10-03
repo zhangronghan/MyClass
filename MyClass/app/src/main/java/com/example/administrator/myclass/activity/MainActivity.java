@@ -38,7 +38,7 @@ public class MainActivity extends BaseActivity {
         mToolbar= (Toolbar) findViewById(R.id.toolbar);
         mViewPager= (ViewPager) findViewById(R.id.viewpager);
         mRadioGroup= (RadioGroup) findViewById(R.id.rg_radioGroup);
-
+        
     }
 
     @Override

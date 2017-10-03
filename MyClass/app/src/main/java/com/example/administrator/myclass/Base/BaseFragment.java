@@ -14,7 +14,7 @@ import android.widget.Toast;
  */
 
 public abstract class BaseFragment extends Fragment {
-    private View rootView;
+    public View rootView;
     private Toast mToast;
 
     @Nullable
