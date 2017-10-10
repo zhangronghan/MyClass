@@ -25,7 +25,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -36,5 +36,10 @@ dependencies {
     compile 'cn.bmob.android:bmob-sdk:3.5.0'
     compile 'com.youth.banner:banner:1.4.10'
     compile 'com.squareup.picasso:picasso:2.5.2'
+
+    //二维码
+    compile 'com.google.zxing:core:3.2.1'
+    compile 'com.journeyapps:zxing-android-embedded:3.5.0'
+
 }
 

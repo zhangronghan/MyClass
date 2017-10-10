@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="myclass">
+        <item>请选择专业</item>
+        <item>软件技术</item>
+        <item>网络技术</item>
+        <item>汽车维修</item>
+        <item>图形图像</item>
+        <item>智能交通</item>
+    </string-array>
+
+    <string-array name="myteam">
+        <item>几班</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+
+    </string-array>
+
+
+</resources>

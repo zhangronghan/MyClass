@@ -24,6 +24,7 @@ import cn.bmob.v3.listener.SaveListener;
  * Created by Administrator on 2017/9/12.
  */
 
+/***  环信的登录还没做  **/
 public class RegisterActivity extends BaseActivity {
     private EditText mEdtPhone;
     private EditText mEdtPass;
@@ -154,7 +155,7 @@ public class RegisterActivity extends BaseActivity {
         MyUser myUser=new MyUser();
         String phone=mEdtPhone.getText().toString();
         String password=mEdtPass.getText().toString();
-        myUser.setMobilePhoneNumber(phone);
+        myUser.setUsername(phone);
         myUser.setPassword(password);
 
         myUser.login(new SaveListener<MyUser>() {

@@ -25,7 +25,7 @@ import cn.bmob.v3.listener.SaveListener;
 /**
  * Created by Administrator on 2017/9/13.
  */
-
+//注册界面
 public class LoginActivity extends BaseActivity {
     private ImageView mIvBack;
     private EditText mEdtPhone;
@@ -128,8 +128,8 @@ public class LoginActivity extends BaseActivity {
                     String phone=mEdtPhone.getText().toString();
                     String code=mEdtCode.getText().toString();
                     String password=mEdtPass.getText().toString();
-                    String confirmPassword=mEdtConfirmPass.getText().toString();
-                    String username=mEdtUserName.getText().toString();
+                    final String confirmPassword=mEdtConfirmPass.getText().toString();
+                    final String username=mEdtUserName.getText().toString();
 
                     //弹出圆形进度条
                     final ProgressDialog progressDialog=new ProgressDialog(LoginActivity.this);
@@ -176,6 +176,7 @@ public class LoginActivity extends BaseActivity {
                                     showToast("注册成功");
                                     //返回registerActivity
                                     finish();
+
                                 } else {
                                     progressDialog.cancel();
                                     showToast("注册失败,该用户可能已经存在");

@@ -1,5 +1,6 @@
 package com.example.administrator.myclass.activity;
 
+import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -14,6 +15,7 @@ import com.example.administrator.myclass.adapter.MyViewPagerFragmentAdapter;
 import com.example.administrator.myclass.fragment.MyFriendFragment;
 import com.example.administrator.myclass.fragment.MyInfoFragment;
 import com.example.administrator.myclass.fragment.MyMainFragment;
+import com.journeyapps.barcodescanner.CaptureActivity;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
+    private static final int CODE_SCAN = 1001;
     private Toolbar mToolbar;
     private ViewPager mViewPager;
     private RadioGroup mRadioGroup;
@@ -130,13 +133,16 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.popup_create:
-                showToast("创建班级");
+                //创建班级
+                startActivity(new Intent(MainActivity.this,CreateClassActivity.class));
                 break;
              case R.id.popup_join:
+                 //加入班级
                 showToast("加入班级");
                 break;
              case R.id.popup_scan:
-                showToast("扫一扫");
+                 //扫一扫
+                startActivityForResult(new Intent(MainActivity.this, CaptureActivity.class),CODE_SCAN);
             break;
 
             default:
@@ -169,5 +175,17 @@ public class MainActivity extends BaseActivity {
 
 
         return super.onMenuOpened(featureId, menu);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(requestCode == CODE_SCAN){
+            String result=data.getExtras().getString("result");
+            showToast(result);
+        }
+
+
     }
 }
