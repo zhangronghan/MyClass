@@ -29,6 +29,14 @@
 
         <activity android:name=".activity.CreateClassActivity"/>
 
+        <activity android:name=".activity.JoinClassActivity"/>
+
+        <activity android:name=".activity.ConfirmJoinActivity"/>
+
+        <activity android:name=".activity.AppraiseActivity"/>
+
+        <activity android:name=".activity.AppraiseCreateActivity"/>
+
     </application>
 
     <!--允许联网 -->

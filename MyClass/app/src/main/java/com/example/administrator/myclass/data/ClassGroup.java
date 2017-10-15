@@ -1,6 +1,6 @@
 package com.example.administrator.myclass.data;
 
-import java.util.List;
+import java.io.Serializable;
 
 import cn.bmob.v3.BmobObject;
 
@@ -8,12 +8,11 @@ import cn.bmob.v3.BmobObject;
  * Created by Administrator on 2017/10/7.
  */
 
-public class ClassGroup extends BmobObject{
+public class ClassGroup extends BmobObject implements Serializable{
     //班级id 选择bmob给的objectId
     private String groupName; //班级名
-    private List<String> manager; //管理者（包括群主）
-    private List<String> users;   //用户
-    private byte[] imageHeader;  //班级头像
+    private String manager; //管理者（包括群主）
+    private String imageHeaderUri;  //班级头像
 
     public String getGroupName() {
         return groupName;
@@ -23,29 +22,19 @@ public class ClassGroup extends BmobObject{
         this.groupName = groupName;
     }
 
-    public List<String> getManager() {
+    public String getManager() {
         return manager;
     }
 
-    public void setManager(List<String> manager) {
+    public void setManager(String manager) {
         this.manager = manager;
     }
 
-    public List<String> getUsers() {
-        return users;
+    public String getImageHeaderUri() {
+        return imageHeaderUri;
     }
 
-    public void setUsers(List<String> users) {
-        this.users = users;
+    public void setImageHeaderUri(String imageHeaderUri) {
+        this.imageHeaderUri = imageHeaderUri;
     }
-
-    public byte[] getImageHeader() {
-        return imageHeader;
-    }
-
-    public void setImageHeader(byte[] imageHeader) {
-        this.imageHeader = imageHeader;
-    }
-
-
 }

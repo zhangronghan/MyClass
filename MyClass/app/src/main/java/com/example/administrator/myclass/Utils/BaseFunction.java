@@ -3,8 +3,24 @@ package com.example.administrator.myclass.Utils;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
+import android.util.Log;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.example.administrator.myclass.data.ClassGroup;
+
+import java.io.File;
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.DownloadFileListener;
+import cn.bmob.v3.listener.FindListener;
 
 /**
  * Created by Administrator on 2017/10/7.
@@ -24,13 +40,60 @@ public class BaseFunction {
     }
 
 
-    public static ProgressDialog showProgressDialog(Context context, String s) {
+    public static ProgressDialog showProgressDialog(Context context,String str) {
         ProgressDialog progressDialog=new ProgressDialog(context);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(true);
         progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.setMessage(s);
+        progressDialog.setMessage(str);
 
         return progressDialog;
     }
+
+    //截取字符串，获取图片名
+    public static String getImageNameToDate(String imageHeaderUri) {
+        String str=imageHeaderUri.substring(imageHeaderUri.lastIndexOf("/")+1,imageHeaderUri.length());
+        return str;
+    }
+
+    //从Bmob中下载远程图片
+    public static void getImageFromBmob(final ClassGroup mGroup, final ImageView ivHeader) {
+        final String imageName= BaseFunction.getImageNameToDate(mGroup.getImageHeaderUri());
+
+        BmobQuery<ClassGroup> bmobQuery=new BmobQuery<>();
+        bmobQuery.findObjects(new FindListener<ClassGroup>() {
+            @Override
+            public void done(List<ClassGroup> list, BmobException e) {
+                if(e==null){
+                    BmobFile bmobFile=new BmobFile(imageName,"",mGroup.getImageHeaderUri());
+                    File file=new File(Environment.getExternalStorageDirectory(),bmobFile.getFilename());
+
+                    bmobFile.download(file,new DownloadFileListener() {
+                        @Override
+                        public void done(String savePath, BmobException e) {
+                            if(e==null){
+                                Bitmap bitmap= BitmapFactory.decodeFile(savePath);
+                                ivHeader.setImageBitmap(bitmap);
+                                Log.e("AAA","下载成功"+savePath);
+                            } else {
+                                Log.e("AAA","下载失败"+e.getMessage());
+                            }
+                        }
+                        @Override
+                        public void onProgress(Integer integer, long l) {
+
+                        }
+                    });
+
+                } else {
+                    Log.e("AAA","find:"+e.getMessage());
+                }
+
+            }
+        });
+    }
+
+
+
+
 }

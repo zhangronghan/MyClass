@@ -3,7 +3,7 @@ package com.example.administrator.myclass.Utils;
 import android.content.Context;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 import com.youth.banner.loader.ImageLoader;
 
 /**
@@ -15,7 +15,7 @@ public class GlideImageLoader extends ImageLoader {
     @Override
     public void displayImage(Context context, Object path, ImageView imageView) {
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        Picasso.with(context).load(path.toString()).into(imageView);
+        Glide.with(context).load(path.toString()).into(imageView);
     }
 
 

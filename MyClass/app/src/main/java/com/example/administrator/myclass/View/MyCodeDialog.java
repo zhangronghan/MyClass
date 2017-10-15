@@ -53,6 +53,7 @@ public class MyCodeDialog extends Dialog {
             ImageView img = (ImageView)layout.findViewById(R.id.iv_qrcode);
             img.setImageBitmap(getImage());
             return dialog;
+
         }
 
 

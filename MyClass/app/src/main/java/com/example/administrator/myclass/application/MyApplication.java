@@ -15,7 +15,7 @@ public class MyApplication extends Application {
         super.onCreate();
 
         //bmob初始化
-        Bmob.initialize(this, "433f4d72362971bd4a9d286110ebb1f1");
+        Bmob.initialize(this, "9161541abea92bb57a5256bd64cbbe64");
 
 
     }
