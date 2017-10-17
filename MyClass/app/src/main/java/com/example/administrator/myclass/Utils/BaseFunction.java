@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Environment;
 import android.util.Log;
 import android.view.WindowManager;
@@ -93,7 +94,22 @@ public class BaseFunction {
         });
     }
 
+    /**
+     * 从这5种颜色中随机拿到一种
+     * */
+    public static int getFirstWordColor() {
+        int colorNum=0;
+        int[] arr={Color.argb(200,255,0,0),Color.argb(120,255,0,0),
+                Color.argb(200,0,0,255),Color.argb(150,0,255,0),Color.argb(100,50,50,50)};
 
+        int num= ((int) (Math.random()*10))%arr.length;
+        for(int i=0;i<arr.length ;i++){
+            if(num==i){
+                colorNum=arr[i];
+            }
+        }
+        return colorNum;
+    }
 
 
 }

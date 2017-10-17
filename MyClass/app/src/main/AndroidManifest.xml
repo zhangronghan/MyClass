@@ -37,6 +37,8 @@
 
         <activity android:name=".activity.AppraiseCreateActivity"/>
 
+        <activity android:name=".activity.AppraiseDetailActivity"/>
+
     </application>
 
     <!--允许联网 -->

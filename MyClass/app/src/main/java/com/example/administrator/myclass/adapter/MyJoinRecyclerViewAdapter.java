@@ -50,8 +50,6 @@ public class MyJoinRecyclerViewAdapter extends RecyclerView.Adapter<MyJoinViewHo
     }
 
 
-
-
     @Override
     public int getItemCount() {
         return mList==null?0:mList.size();

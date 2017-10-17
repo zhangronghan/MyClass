@@ -3,11 +3,9 @@ package com.example.administrator.myclass.activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -157,6 +155,7 @@ public class CreateClassActivity extends BaseActivity {
                             public void done(BmobException e) {
                                 if(e==null){
                                     myClassGroup.setImageHeaderUri(bmobFile.getFileUrl());
+
                                         myClassGroup.save(new SaveListener<String>() {
                                             @Override
                                             public void done(String s, BmobException e) {
@@ -249,15 +248,6 @@ public class CreateClassActivity extends BaseActivity {
 
     }
 
-    private String getImagePath(Intent data) {
-        String[] imagePath = {MediaStore.Images.Media.DATA};
-        Cursor cursor = managedQuery(data.getData(), imagePath, null, null, null);
-        int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String path = cursor.getString(index);
-
-        return path;
-    }
 
 
 }
