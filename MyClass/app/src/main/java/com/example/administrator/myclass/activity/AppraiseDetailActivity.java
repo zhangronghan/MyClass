@@ -43,21 +43,22 @@ public class AppraiseDetailActivity extends BaseActivity implements OnAgreeClick
     private BmobRealTimeData bmobRealTimeData;     //Bmob实时同步
     private BmobUser bmobUser = BmobUser.getCurrentUser();
     private AppraiseGroup appraiseGroup;
+    private int total;
 
     @Override
     protected int getLayoutRes() {
-        return R.layout.activity_detail;
+        return R.layout.activity_appraise_detail;
     }
 
     @Override
     protected void initViews() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mTvTitle= (TextView) findViewById(R.id.tv_title);
+        mTvTitle = (TextView) findViewById(R.id.tv_title);
 
 
         appraiseGroup = (AppraiseGroup) getIntent().getSerializableExtra(MyIntentData.APPRAISE_DATA);
-        mAppraiseDetailAdapter = new MyAppraiseDetailAdapter(this, mAppraiseList, this,appraiseGroup);
+        mAppraiseDetailAdapter = new MyAppraiseDetailAdapter(this, mAppraiseList, this, appraiseGroup);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAppraiseDetailAdapter);
         setSupportActionBar(mToolbar);
@@ -81,31 +82,32 @@ public class AppraiseDetailActivity extends BaseActivity implements OnAgreeClick
 
         getAppraiseItemData(appraiseGroup);
 
+        SyncData();
+
+    }
+
+    private void SyncData() {
         bmobRealTimeData = new BmobRealTimeData();
         bmobRealTimeData.start(new ValueEventListener() {
             @Override
             public void onConnectCompleted(Exception e) {
-                Log.e("AAA", "连接成功");
+                if(e==null && bmobRealTimeData.isConnected()){
+                    bmobRealTimeData.subTableUpdate("AppraiseGroup");
+                    Log.e("AAA", "连接成功");
+                } else {
+                    Log.e("AAA","连接失败");
+                }
             }
 
             @Override
             public void onDataChange(JSONObject jsonObject) {
-                Log.e("QQQ", jsonObject + "");
-                BmobQuery<Appraise> bmobQuery = new BmobQuery<Appraise>();
-                bmobQuery.findObjects(new FindListener<Appraise>() {
-                    @Override
-                    public void done(List<Appraise> list, BmobException e) {
-                        if (e == null) {
-                            mAppraiseList = list;
-                        } else {
-                            Log.e("AAA", "同步失败" + e.getMessage());
-                        }
-                    }
-                });
-
-
+                JSONObject data = jsonObject.optJSONObject("data");
+                total=data.optInt("voteNum");
+                Log.e("AAA","voteNum:"+total);
             }
         });
+
+
 
     }
 
@@ -160,7 +162,7 @@ public class AppraiseDetailActivity extends BaseActivity implements OnAgreeClick
             if (mList == null) {
                 mList = new ArrayList<>();
             }
-            if( !appraiseList.get(position).getAppraiseTitle().equals(appraiseList.get(i).getAppraiseTitle())){
+            if (!appraiseList.get(position).getAppraiseTitle().equals(appraiseList.get(i).getAppraiseTitle())) {
                 continue;
             }
             for (int k = 0; k < mList.size(); k++) {
@@ -210,6 +212,9 @@ public class AppraiseDetailActivity extends BaseActivity implements OnAgreeClick
 
     }
 
+    /**
+     * 更新投票人数
+     */
     private void getVoteNum(final Dialog dialog) {
         int num = appraiseGroup.getVoteNum();
         AppraiseGroup mAppraiseGroup = new AppraiseGroup();
@@ -219,12 +224,29 @@ public class AppraiseDetailActivity extends BaseActivity implements OnAgreeClick
             public void done(BmobException e) {
                 if (e == null) {
                     showToast("投票成功");
-                    mAppraiseDetailAdapter.getTotalData(appraiseGroup.getAppraiseTitle(),mAppraiseList);
+                    getUpdateData(appraiseGroup.getAppraiseTitle());
                     dialog.dismiss();
                 } else {
                     showToast("投票失败");
                     dialog.dismiss();
                     Log.e("AAA", "vote" + e.getMessage());
+                }
+            }
+        });
+
+    }
+
+    private void getUpdateData(String appraiseTitle) {
+        BmobQuery<Appraise> bmobQuery = new BmobQuery<>();
+        bmobQuery.addWhereEqualTo("appraiseTitle", appraiseTitle);
+        bmobQuery.setLimit(20);
+        bmobQuery.findObjects(new FindListener<Appraise>() {
+            @Override
+            public void done(List<Appraise> list, BmobException e) {
+                if (e == null) {
+                    mAppraiseDetailAdapter.refresh(list,total);
+                } else {
+                    Log.e("AAA", "getAllData"+e.getMessage());
                 }
             }
         });

@@ -9,29 +9,29 @@ import android.widget.TextView;
 import com.example.administrator.myclass.R;
 
 /**
- * Created by Administrator on 2017/10/16.
+ * Created by Administrator on 2017/10/17.
  */
 
-public class MyAppraiseDetailViewHolder extends RecyclerView.ViewHolder{
-    public ImageView mIvHeader;
-    public TextView mTvName;
-    public TextView mTvIntroduce;
+public class VoteDetailViewHolder extends RecyclerView.ViewHolder{
+    public ImageView mIvImageheader;
+    public TextView mTvTitle;
+    public TextView mTvWriter;
     public ImageView mIvAgree;
     public ProgressBar mProgressBar;
     public TextView mTvAgreeNum;
 
-    public MyAppraiseDetailViewHolder(View itemView) {
+
+
+    public VoteDetailViewHolder(View itemView) {
         super(itemView);
 
-        mIvHeader = (ImageView) itemView.findViewById(R.id.iv_header);
-        mTvName = (TextView) itemView.findViewById(R.id.tv_name);
-        mTvIntroduce = (TextView) itemView.findViewById(R.id.tv_introduce);
+        mIvImageheader = (ImageView) itemView.findViewById(R.id.iv_imageheader);
+        mTvTitle = (TextView) itemView.findViewById(R.id.tv_title);
+        mTvWriter = (TextView) itemView.findViewById(R.id.tv_writer);
         mIvAgree = (ImageView) itemView.findViewById(R.id.iv_agree);
         mProgressBar = (ProgressBar) itemView.findViewById(R.id.progressBar);
         mTvAgreeNum = (TextView) itemView.findViewById(R.id.tv_agreeNum);
 
     }
-
-
 
 }

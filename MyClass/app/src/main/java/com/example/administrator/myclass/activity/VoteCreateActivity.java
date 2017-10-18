@@ -17,8 +17,9 @@ import android.widget.TextView;
 import com.example.administrator.myclass.Base.BaseActivity;
 import com.example.administrator.myclass.R;
 import com.example.administrator.myclass.Utils.BaseFunction;
-import com.example.administrator.myclass.data.Appraise;
-import com.example.administrator.myclass.data.AppraiseGroup;
+import com.example.administrator.myclass.View.ImageViewPlus;
+import com.example.administrator.myclass.data.ActivityVote;
+import com.example.administrator.myclass.data.ActivityVoteGroup;
 import com.example.administrator.myclass.data.GetImagePath;
 import com.example.administrator.myclass.data.MyIntentData;
 
@@ -32,40 +33,37 @@ import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
 /**
- * Created by Administrator on 2017/10/15.
+ * Created by Administrator on 2017/10/17.
  */
 
-public class AppraiseCreateActivity extends BaseActivity {
+public class VoteCreateActivity extends BaseActivity {
     private static final int GET_IMAGE = 1001;
     private ImageView mIvBack;
-    private TextView mTvFinishAppraise;
-    private ImageView mIvAppraisedImage;
-    private EditText mEdtAppraisedName;
-    private EditText mEdtIntroduce;
     private TextView mTvTitle;
-    private Button btnNext;
+    private TextView mTvFinishVote;
+    private ImageViewPlus mIvVoteImage;
+    private EditText mEdtJoinActivityName;
+    private EditText mEdtJoinActivityTitle;
+    private EditText mEdtContent;
+    private Button mBtnNext;
     private String imageUrl;
     private String title;
 
-/*
-    private Boolean isNameNotEmpty=false; //mEdtAppraisedName 是否为空
-    private Boolean isIntroduceNotEmpty=false;  //mEdtIntroduce 是否为空
-*/
-
     @Override
     protected int getLayoutRes() {
-        return R.layout.activity_appraise_careate;
+        return R.layout.activity_vote_create;
     }
 
     @Override
     protected void initViews() {
         mIvBack = (ImageView) findViewById(R.id.iv_back);
-        mTvFinishAppraise = (TextView) findViewById(R.id.tv_finish_appraise);
-        mIvAppraisedImage = (ImageView) findViewById(R.id.iv_appraisedImage);
-        mEdtAppraisedName = (EditText) findViewById(R.id.edt_appraisedName);
-        mEdtIntroduce = (EditText) findViewById(R.id.edt_content);
         mTvTitle = (TextView) findViewById(R.id.tv_title);
-        btnNext = (Button) findViewById(R.id.btn_next);
+        mTvFinishVote = (TextView) findViewById(R.id.tv_finish_vote);
+        mIvVoteImage = (ImageViewPlus) findViewById(R.id.iv_voteImage);
+        mEdtJoinActivityName = (EditText) findViewById(R.id.edt_joinActivityName);
+        mEdtJoinActivityTitle = (EditText) findViewById(R.id.edt_joinActivityTitle);
+        mEdtContent = (EditText) findViewById(R.id.edt_content);
+        mBtnNext = (Button) findViewById(R.id.btn_next);
 
     }
 
@@ -78,7 +76,7 @@ public class AppraiseCreateActivity extends BaseActivity {
             }
         });
 
-        mIvAppraisedImage.setOnClickListener(new View.OnClickListener() {
+        mIvVoteImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
@@ -88,38 +86,37 @@ public class AppraiseCreateActivity extends BaseActivity {
             }
         });
 
-
-        btnNext.setOnClickListener(new View.OnClickListener() {
+        mBtnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dialog = BaseFunction.showProgressDialog(AppraiseCreateActivity.this, "执行中....");
+                final Dialog dialog = BaseFunction.showProgressDialog(VoteCreateActivity.this, "执行中....");
                 dialog.show();
 
-                final String name = mEdtAppraisedName.getText().toString();
-                final String introduce = mEdtIntroduce.getText().toString();
-
-                if (!TextUtils.isEmpty(imageUrl) && !TextUtils.isEmpty(name) && !TextUtils.isEmpty(introduce)) {
-
+                final String name = mEdtJoinActivityName.getText().toString();
+                final String joinTitle = mEdtJoinActivityTitle.getText().toString();
+                final String content = mEdtContent.getText().toString();
+                if (!TextUtils.isEmpty(imageUrl) && !TextUtils.isEmpty(name) && !TextUtils.isEmpty(joinTitle) && !TextUtils.isEmpty(content)) {
                     final BmobFile bmobFile = new BmobFile(new File(imageUrl));
                     bmobFile.upload(new UploadFileListener() {
                         @Override
                         public void done(BmobException e) {
                             if (e == null) {
-                                Appraise appraise = new Appraise();
-                                appraise.setAppraiseTitle(title);
-                                appraise.setAppraisedName(name);
-                                appraise.setIntroduce(introduce);
-                                appraise.setImageHeader(bmobFile.getFileUrl());
+                                ActivityVote activityVote = new ActivityVote();
+                                activityVote.setJoinActivityName(name);
+                                activityVote.setActivityTitle(title);
+                                activityVote.setJoinActivityTitle(joinTitle);
+                                activityVote.setContent(content);
+                                activityVote.setImageHeader(bmobFile.getFileUrl());
 
-                                appraise.save(new SaveListener<String>() {
+                                activityVote.save(new SaveListener<String>() {
                                     @Override
                                     public void done(String s, BmobException e) {
                                         if (e == null) {
                                             showToast("保存成功,请添加下一个");
                                             dialog.dismiss();
 
-                                            Intent intent = new Intent(AppraiseCreateActivity.this, AppraiseCreateActivity.class);
-                                            intent.putExtra(MyIntentData.APPRAISE_TITLE, title);
+                                            Intent intent = new Intent(VoteCreateActivity.this, VoteCreateActivity.class);
+                                            intent.putExtra(MyIntentData.VOTE_TITLE, title);
                                             startActivity(intent);
                                             finish();
                                         } else {
@@ -130,123 +127,126 @@ public class AppraiseCreateActivity extends BaseActivity {
                                 });
 
                             } else {
-                                Log.e("AAA", e.getMessage());
+                                Log.e("AAA", "BmobFile:" + e.getMessage());
                             }
+
+
                         }
                     });
 
                 } else {
+                    showToast("请填写完整");
                     dialog.dismiss();
-                    showToast("姓名或介绍不能为空");
                 }
-
 
             }
         });
 
-        mTvFinishAppraise.setOnClickListener(new View.OnClickListener() {
+        mTvFinishVote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Dialog dialog = BaseFunction.showProgressDialog(AppraiseCreateActivity.this, "加载中....");
+                final Dialog dialog = BaseFunction.showProgressDialog(VoteCreateActivity.this, "执行中....");
                 dialog.show();
 
-                final String name = mEdtAppraisedName.getText().toString();
-                final String introduce = mEdtIntroduce.getText().toString();
-                if (!TextUtils.isEmpty(imageUrl) && !TextUtils.isEmpty(name) && !TextUtils.isEmpty(introduce)) {
-
+                final String name = mEdtJoinActivityName.getText().toString();
+                final String joinTitle = mEdtJoinActivityTitle.getText().toString();
+                final String content = mEdtContent.getText().toString();
+                if (!TextUtils.isEmpty(imageUrl) && !TextUtils.isEmpty(name) && !TextUtils.isEmpty(joinTitle) && !TextUtils.isEmpty(content)) {
                     final BmobFile bmobFile = new BmobFile(new File(imageUrl));
                     bmobFile.upload(new UploadFileListener() {
                         @Override
                         public void done(BmobException e) {
                             if (e == null) {
-                                Appraise appraise = new Appraise();
-                                appraise.setAppraiseTitle(title);
-                                appraise.setAppraisedName(name);
-                                appraise.setIntroduce(introduce);
-                                appraise.setImageHeader(bmobFile.getFileUrl());
+                                ActivityVote activityVote = new ActivityVote();
+                                activityVote.setJoinActivityName(name);
+                                activityVote.setActivityTitle(title);
+                                activityVote.setJoinActivityTitle(joinTitle);
+                                activityVote.setContent(content);
+                                activityVote.setImageHeader(bmobFile.getFileUrl());
 
-                                appraise.save(new SaveListener<String>() {
+                                activityVote.save(new SaveListener<String>() {
                                     @Override
                                     public void done(String s, BmobException e) {
                                         if (e == null) {
                                             execureCreateOperate(dialog);
-
                                             finish();
                                         } else {
-                                            showToast("保存失败");
-                                            Log.e("AAA","SAVE"+e.getMessage());
+                                            showToast("创建失败");
+                                            Log.e("AAA", "SAVE" + e.getMessage());
                                             dialog.dismiss();
                                         }
                                     }
                                 });
 
                             } else {
-                                Log.e("AAA","upload:"+e.getMessage());
+                                Log.e("AAA", "上传图片：" + e.getMessage());
                             }
+
                         }
                     });
-                } else {
-                    dialog.dismiss();
-                    showToast("姓名或介绍不能为空");
 
+                } else {
+                    showToast("请填写完整");
+                    dialog.dismiss();
                 }
 
             }
-
         });
+
+
     }
+
 
     @Override
     protected void initData() {
-        title = getIntent().getStringExtra(MyIntentData.APPRAISE_TITLE);
-        mTvTitle.setText("创建评优：" + title);
+        title = getIntent().getStringExtra(MyIntentData.VOTE_TITLE);
+        mTvTitle.setText("活动："+title);
 
 
     }
 
     /**
      * 执行创建操作
-     * */
+     */
     private void execureCreateOperate(final Dialog dialog) {
         BmobUser bmobUser = BmobUser.getCurrentUser();
-        AppraiseGroup appraiseGroup = new AppraiseGroup();
-        appraiseGroup.setAppraiseTitle(title);
-        appraiseGroup.setCreateName(bmobUser.getUsername());
-        appraiseGroup.save(new SaveListener<String>() {
+        ActivityVoteGroup activityVoteGroup = new ActivityVoteGroup();
+        activityVoteGroup.setCreateName(bmobUser.getUsername());
+        activityVoteGroup.setActivityTitle(title);
+        activityVoteGroup.setVoteNum(0);
+
+        activityVoteGroup.save(new SaveListener<String>() {
             @Override
             public void done(String s, BmobException e) {
                 if (e == null) {
                     showToast("创建成功");
                     dialog.dismiss();
-                    finish();
                 } else {
                     showToast("创建失败");
                     dialog.dismiss();
-                    Log.e("AAA", "mTvFinishAppraise: " + e.getMessage());
                 }
-
             }
         });
+
     }
 
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (requestCode == GET_IMAGE) {
             if (data != null) {
                 Uri uri = data.getData();
                 ContentResolver cr = this.getContentResolver();
                 try {
                     Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
-                    mIvAppraisedImage.setImageBitmap(bitmap);
-                    imageUrl = GetImagePath.getPath(AppraiseCreateActivity.this, data.getData());
+                    mIvVoteImage.setImageBitmap(bitmap);
+                    imageUrl = GetImagePath.getPath(VoteCreateActivity.this, data.getData());
 
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-
             }
         }
+
     }
 
 

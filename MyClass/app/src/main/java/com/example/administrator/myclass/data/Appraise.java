@@ -8,7 +8,8 @@ import cn.bmob.v3.BmobObject;
  * Created by Administrator on 2017/10/15.
  */
 
-//评优
+
+//个人
 public class Appraise extends BmobObject{
     private String appraiseTitle;  //评优的标题
     private String appraisedName;  //被评优的同学

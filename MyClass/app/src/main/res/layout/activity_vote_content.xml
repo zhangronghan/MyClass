@@ -15,19 +15,24 @@
         app:theme="@style/ThemeOverlay.AppCompat.Dark">
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="活动投票"
+            android:text="标题"
             android:textColor="@color/colorWhite"
             android:textSize="20sp"
             android:gravity="center"/>
 
     </android.support.v7.widget.Toolbar>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <TextView
+        android:id="@+id/tv_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:textSize="20sp"
+        android:textColor="#000"
+        android:text="zhang"
+        android:padding="10dp"/>
 
 
 </LinearLayout>

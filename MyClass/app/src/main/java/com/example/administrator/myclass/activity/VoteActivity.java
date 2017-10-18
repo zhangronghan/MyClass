@@ -17,8 +17,8 @@ import com.example.administrator.myclass.Base.BaseActivity;
 import com.example.administrator.myclass.Listener.OnItemClickListener;
 import com.example.administrator.myclass.R;
 import com.example.administrator.myclass.Utils.BaseFunction;
-import com.example.administrator.myclass.adapter.MyAppraiseRecyclerViewAdapter;
-import com.example.administrator.myclass.data.AppraiseGroup;
+import com.example.administrator.myclass.adapter.MyVoteAdapter;
+import com.example.administrator.myclass.data.ActivityVoteGroup;
 import com.example.administrator.myclass.data.MyIntentData;
 
 import java.util.List;
@@ -28,29 +28,29 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
 /**
- * Created by Administrator on 2017/10/14.
+ * Created by Administrator on 2017/10/17.
  */
 
-public class AppraiseActivity extends BaseActivity{
+public class VoteActivity extends BaseActivity {
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
-    private MyAppraiseRecyclerViewAdapter mAppraiseRecyclerViewAdapter;
-    private List<AppraiseGroup> mAppraiseGroupList;
+    private MyVoteAdapter mVoteAdapter;
+    private List<ActivityVoteGroup> mActivityVoteGroupList;
 
     @Override
     protected int getLayoutRes() {
-        return R.layout.activity_appraise;
+        return R.layout.activity_vote;
     }
 
     @Override
     protected void initViews() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mRecyclerView= (RecyclerView) findViewById(R.id.recyclerView);
 
 
-        mAppraiseRecyclerViewAdapter=new MyAppraiseRecyclerViewAdapter(this, mAppraiseGroupList);
+        mVoteAdapter=new MyVoteAdapter(this,mActivityVoteGroupList);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(mAppraiseRecyclerViewAdapter);
+        mRecyclerView.setAdapter(mVoteAdapter);
         setSupportActionBar(mToolbar);
     }
 
@@ -63,11 +63,11 @@ public class AppraiseActivity extends BaseActivity{
             }
         });
 
-        mAppraiseRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
+        mVoteAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent=new Intent(AppraiseActivity.this,AppraiseDetailActivity.class);
-                intent.putExtra(MyIntentData.APPRAISE_DATA,mAppraiseGroupList.get(position));
+                Intent intent=new Intent(VoteActivity.this,VoteDetailActivity.class);
+                intent.putExtra(MyIntentData.VOTE_DETAIL,mActivityVoteGroupList.get(position));
                 startActivity(intent);
             }
         });
@@ -79,50 +79,51 @@ public class AppraiseActivity extends BaseActivity{
     protected void initData() {
         mToolbar.setNavigationIcon(R.drawable.ic_appraise_back);
 
+
         getDataFromBmob();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         getDataFromBmob();
     }
 
-    /**
-    * 从bmob中获取评优数据
-    */
     private void getDataFromBmob() {
-        final Dialog dialog= BaseFunction.showProgressDialog(this,"加载中....");
+        final Dialog dialog= BaseFunction.showProgressDialog(this,"获取中....");
         dialog.show();
-        BmobQuery<AppraiseGroup> bmobQuery=new BmobQuery<>();
-        bmobQuery.findObjects(new FindListener<AppraiseGroup>() {
+
+        BmobQuery<ActivityVoteGroup> bmobQuery=new BmobQuery<>();
+        bmobQuery.findObjects(new FindListener<ActivityVoteGroup>() {
             @Override
-            public void done(List<AppraiseGroup> list, BmobException e) {
+            public void done(List<ActivityVoteGroup> list, BmobException e) {
                 if(e==null){
-                    mAppraiseGroupList =list;
-                    mAppraiseRecyclerViewAdapter.refresh(mAppraiseGroupList);
+                    mActivityVoteGroupList=list;
+                    mVoteAdapter.refresh(mActivityVoteGroupList);
                     dialog.dismiss();
                 } else {
-                    showToast("加载出错");
+                    showToast("获取数据出错，请重新进入");
+                    Log.e("AAA","getData:"+e.getMessage());
                     dialog.dismiss();
-                    Log.e("AAA","GET_DATA: "+e.getMessage());
                 }
             }
         });
 
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.popup_apppreise_menu,menu);
+        getMenuInflater().inflate(R.menu.popup_vote_menu,menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.item_create_appraise:
+            case R.id.item_vote_create:
                 final EditText edtTitle=new EditText(this);
                 AlertDialog.Builder dialog=new AlertDialog.Builder(this);
                 dialog.setTitle("输入标题").setView(edtTitle);
@@ -133,8 +134,8 @@ public class AppraiseActivity extends BaseActivity{
                         if(title.equals("")){
                             showToast("请输入标题");
                         } else {
-                            Intent intent=new Intent(AppraiseActivity.this,AppraiseCreateActivity.class);
-                            intent.putExtra(MyIntentData.APPRAISE_TITLE,title);
+                            Intent intent=new Intent(VoteActivity.this,VoteCreateActivity.class);
+                            intent.putExtra(MyIntentData.VOTE_TITLE,title);
                             startActivity(intent);
                         }
                     }
@@ -149,8 +150,8 @@ public class AppraiseActivity extends BaseActivity{
 
                 break;
 
-            case R.id.item_delete_appraise:
-                showToast("删除评优");
+            case R.id.item_vote_delete:
+                showToast("删除活动");
                 break;
 
             default:
@@ -158,9 +159,6 @@ public class AppraiseActivity extends BaseActivity{
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
 
 
 }

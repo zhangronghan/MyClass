@@ -1,5 +1,6 @@
 package com.example.administrator.myclass.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.administrator.myclass.Base.BaseActivity;
 import com.example.administrator.myclass.R;
+import com.example.administrator.myclass.Utils.BaseFunction;
 import com.example.administrator.myclass.Utils.countDownUtil;
 import com.example.administrator.myclass.data.MyUser;
 
@@ -152,6 +154,9 @@ public class RegisterActivity extends BaseActivity {
 
     //使用密码登录
     private void usePasswordRegister() {
+        final Dialog dialog= BaseFunction.showProgressDialog(this,"登录中....");
+        dialog.show();
+
         MyUser myUser=new MyUser();
         String phone=mEdtPhone.getText().toString();
         String password=mEdtPass.getText().toString();
@@ -164,9 +169,11 @@ public class RegisterActivity extends BaseActivity {
                 if(e==null){
                     showToast("登录成功");
                     startActivity(new Intent(RegisterActivity.this,MainActivity.class));
+                    dialog.dismiss();
                     finish();
                 } else {
                     showToast("登录失败");
+                    dialog.dismiss();
                     Log.e("AAA",e.toString());
                 }
             }

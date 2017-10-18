@@ -20,24 +20,21 @@
         </activity>
 
         <activity android:name=".activity.GuideActivity"/>
-
         <activity android:name=".activity.MainActivity"/>
-
         <activity android:name=".activity.LoginActivity"/>
-
         <activity android:name=".activity.RegisterActivity"/>
-
         <activity android:name=".activity.CreateClassActivity"/>
-
         <activity android:name=".activity.JoinClassActivity"/>
-
         <activity android:name=".activity.ConfirmJoinActivity"/>
-
         <activity android:name=".activity.AppraiseActivity"/>
-
         <activity android:name=".activity.AppraiseCreateActivity"/>
-
         <activity android:name=".activity.AppraiseDetailActivity"/>
+        <activity android:name=".activity.VoteActivity"/>
+        <activity android:name=".activity.VoteCreateActivity"/>
+        <activity android:name=".activity.VoteDetailActivity"/>
+        <activity android:name=".activity.VoteContentActivity"/>
+
+
 
     </application>
 

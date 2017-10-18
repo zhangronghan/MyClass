@@ -16,6 +16,7 @@ import com.example.administrator.myclass.Utils.BaseFunction;
 import com.example.administrator.myclass.Utils.GlideImageLoader;
 import com.example.administrator.myclass.View.ImageViewPlus;
 import com.example.administrator.myclass.View.MyCodeDialog;
+import com.example.administrator.myclass.activity.VoteActivity;
 import com.example.administrator.myclass.activity.AppraiseActivity;
 import com.example.administrator.myclass.adapter.MyGridViewAdapter;
 import com.example.administrator.myclass.data.ClassGroup;
@@ -88,7 +89,7 @@ public class MyMainFragment extends BaseFragment {
                         break;
 
                     case 3:
-                        showToast("活动投票");
+                        startActivity(new Intent(getActivity(), VoteActivity.class));
                         break;
 
                     case 4:

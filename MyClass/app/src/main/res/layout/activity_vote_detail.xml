@@ -15,9 +15,10 @@
         app:theme="@style/ThemeOverlay.AppCompat.Dark">
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="活动投票"
+            android:text="活动"
             android:textColor="@color/colorWhite"
             android:textSize="20sp"
             android:gravity="center"/>
