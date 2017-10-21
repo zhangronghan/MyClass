@@ -8,9 +8,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.administrator.myclass.Base.BaseActivity;
@@ -21,11 +23,16 @@ import com.example.administrator.myclass.adapter.MyAppraiseRecyclerViewAdapter;
 import com.example.administrator.myclass.data.AppraiseGroup;
 import com.example.administrator.myclass.data.MyIntentData;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.BmobBatch;
+import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BatchResult;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.QueryListListener;
 
 /**
  * Created by Administrator on 2017/10/14.
@@ -34,8 +41,10 @@ import cn.bmob.v3.listener.FindListener;
 public class AppraiseActivity extends BaseActivity{
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
+    private Button mBtnDel;
     private MyAppraiseRecyclerViewAdapter mAppraiseRecyclerViewAdapter;
-    private List<AppraiseGroup> mAppraiseGroupList;
+    private List<AppraiseGroup> mAppraiseGroupList=new ArrayList<>();
+    private boolean firstPressBack = true;
 
     @Override
     protected int getLayoutRes() {
@@ -46,6 +55,7 @@ public class AppraiseActivity extends BaseActivity{
     protected void initViews() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mBtnDel = (Button) findViewById(R.id.btn_del);
 
 
         mAppraiseRecyclerViewAdapter=new MyAppraiseRecyclerViewAdapter(this, mAppraiseGroupList);
@@ -71,6 +81,61 @@ public class AppraiseActivity extends BaseActivity{
                 startActivity(intent);
             }
         });
+
+
+        mBtnDel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = BaseFunction.showProgressDialog(AppraiseActivity.this, "删除中....");
+                dialog.show();
+
+                //获得选中的Item
+                List<AppraiseGroup> mAppraiseGroup = mAppraiseRecyclerViewAdapter.getSelectedItem();
+                if (mAppraiseGroup != null) {
+                    List<BmobObject> appraiseList = new ArrayList<BmobObject>();
+                    for (int i = 0; i < mAppraiseGroup.size(); i++) {
+                        String objectId = mAppraiseGroup.get(i).getObjectId();
+                        AppraiseGroup group = new AppraiseGroup();
+                        group.setObjectId(objectId);
+                        appraiseList.add(group);
+                        Log.e("SSS","ID:"+objectId);
+                    }
+
+                    List<String> selectPositionList = mAppraiseRecyclerViewAdapter.getSelectTitleArr();
+                    for (int i = 0; i < selectPositionList.size(); i++) {
+                        Log.e("SSS", selectPositionList.get(i) + "");
+                        for (int k = 0; k < mAppraiseGroupList.size(); k++) {
+                            if(mAppraiseGroupList.get(k).getAppraiseTitle().equals(selectPositionList.get(i).toString())){
+                                mAppraiseGroupList.remove(k);
+                            }
+
+                        }
+                    }
+                    for(int i=0;i<mAppraiseGroupList.size() ;i++){
+                        Log.e("SSS","AAA:"+mAppraiseGroupList.get(i).getAppraiseTitle());
+                    }
+
+                    new BmobBatch().deleteBatch(appraiseList).doBatch(new QueryListListener<BatchResult>() {
+                        @Override
+                        public void done(List<BatchResult> list, BmobException e) {
+                            if(e==null){
+                                mAppraiseRecyclerViewAdapter.refresh(mAppraiseGroupList);
+                                showToast("删除成功");
+                                dialog.dismiss();
+                            } else {
+                                showToast("删除失败");
+                                dialog.dismiss();
+                            }
+                        }
+                    });
+
+                } else {
+                    showToast("请选择");
+                }
+
+            }
+        });
+
 
 
     }
@@ -114,6 +179,22 @@ public class AppraiseActivity extends BaseActivity{
     }
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (firstPressBack) {
+                return super.onKeyDown(keyCode, event);
+            } else {
+                mBtnDel.setVisibility(View.GONE);
+                mAppraiseRecyclerViewAdapter.setCheckBoxVisible(false);
+                firstPressBack = true;
+                return true;
+            }
+        }
+        return true;
+    }
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.popup_apppreise_menu,menu);
         return true;
@@ -150,7 +231,9 @@ public class AppraiseActivity extends BaseActivity{
                 break;
 
             case R.id.item_delete_appraise:
-                showToast("删除评优");
+                firstPressBack = false;
+                mBtnDel.setVisibility(View.VISIBLE);
+                mAppraiseRecyclerViewAdapter.setCheckBoxVisible(true);
                 break;
 
             default:

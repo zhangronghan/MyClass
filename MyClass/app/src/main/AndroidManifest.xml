@@ -9,9 +9,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/notitlebar">
+        android:theme="@style/AppTheme">
 
-        <activity android:name=".activity.StartActivity">
+        <activity android:name=".activity.StartActivity"
+                  android:theme="@style/notitlebar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -19,20 +20,48 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.GuideActivity"/>
-        <activity android:name=".activity.MainActivity"/>
-        <activity android:name=".activity.LoginActivity"/>
-        <activity android:name=".activity.RegisterActivity"/>
-        <activity android:name=".activity.CreateClassActivity"/>
-        <activity android:name=".activity.JoinClassActivity"/>
-        <activity android:name=".activity.ConfirmJoinActivity"/>
-        <activity android:name=".activity.AppraiseActivity"/>
-        <activity android:name=".activity.AppraiseCreateActivity"/>
-        <activity android:name=".activity.AppraiseDetailActivity"/>
-        <activity android:name=".activity.VoteActivity"/>
-        <activity android:name=".activity.VoteCreateActivity"/>
-        <activity android:name=".activity.VoteDetailActivity"/>
-        <activity android:name=".activity.VoteContentActivity"/>
+        <activity android:name=".activity.GuideActivity"
+                  android:theme="@style/notitlebar"/>
+
+        <activity android:name=".activity.MainActivity"
+            android:theme="@style/notitlebar"/>
+
+        <activity android:name=".activity.LoginActivity"
+                  android:theme="@style/notitlebar"/>
+
+        <activity android:name=".activity.RegisterActivity"
+                  android:theme="@style/notitlebar"/>
+
+        <activity android:name=".activity.CreateClassActivity"
+                  android:theme="@style/notitlebar"/>
+
+        <activity android:name=".activity.JoinClassActivity"
+                  android:theme="@style/notitlebar"/>
+
+        <activity android:name=".activity.ConfirmJoinActivity"
+                  android:theme="@style/notitlebar"/>
+
+        <activity android:name=".activity.AppraiseActivity"
+                  android:theme="@style/notitlebar"/>
+
+        <activity android:name=".activity.AppraiseCreateActivity"
+                  android:theme="@style/notitlebar"/>
+
+        <activity android:name=".activity.AppraiseDetailActivity"
+                  android:theme="@style/notitlebar"/>
+
+        <activity android:name=".activity.VoteActivity"
+                  android:theme="@style/notitlebar"/>
+
+        <activity android:name=".activity.VoteCreateActivity"
+                  android:theme="@style/notitlebar"/>
+
+        <activity android:name=".activity.VoteDetailActivity"
+                  android:theme="@style/notitlebar"/>
+
+        <activity android:name=".activity.VoteContentActivity"
+                  android:theme="@style/notitlebar"/>
+
 
 
 
